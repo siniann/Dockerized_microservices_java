@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  web:
+    build: ./web
+    restart: always
+    ports:
+      - "8888:3000"
+    links:
+      - charts
+      - images
+      - search
+    networks:
+      - proxy
+
+  charts:
+    build: ./charts
+    hostname: charts
+    ports:
+      - "8885:8080"
+    expose:
+     - 8080
+    networks:
+      - proxy
+
+  images:
+    hostname: images
+    build: ./images
+    ports:
+      - "8886:8080"
+    expose:
+      - 8080
+    networks:
+      - proxy
+
+  search:
+    hostname: search
+    build: ./search
+    ports:
+      - "8887:8080"
+    expose:
+      - 8080
+    networks:
+      - proxy
+
+networks:
+  proxy:
